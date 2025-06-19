@@ -44,6 +44,7 @@ class LimpezaDados:
         self.carregar_dados()
         self.tratar_valores_nulos()
         self.remover_duplicatas()
+        self.conversao_para_data()
         print("🏁 Fim do processo! DataFrame disponível.")
         return self.df
 
