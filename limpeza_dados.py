@@ -9,9 +9,12 @@ class LimpezaDados:
         self.df = None
 
     def carregar_dados(self):
-        
+        """carregar_dados _summary_
+
+        _extended_summary_
+        """
         print("📥 Lendo o arquivo...")
-        self.df = pd.read_csv(self.caminho_arquivo)
+        self.df = pd.read_csv(self.caminho_arquivo, sep=',', encoding='latin1')
         print("✅ Arquivo carregado!")
         time.sleep(0.5)
 
@@ -26,8 +29,15 @@ class LimpezaDados:
         time.sleep(0.5)
 
     def executar_pipeline(self):
+        """
+        Executa o pipeline completo de limpeza dos dados.
+
+        Returns:
+            pd.DataFrame: DataFrame tratado e pronto para análise.
+        """
         self.carregar_dados()
         self.tratar_valores_nulos()
         self.remover_duplicatas()
         print("🏁 Fim do processo! DataFrame disponível.")
         return self.df
+
