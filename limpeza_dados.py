@@ -28,6 +28,12 @@ class LimpezaDados:
         self.df.drop_duplicates(inplace=True)
         time.sleep(0.5)
 
+    def conversao_para_data(self):
+        print("🏗️ Convertendo tipos...")
+        self.df['posting_date'] = pd.to_datetime(self.df['posting_date'])
+        self.df['application_deadline'] = pd.to_datetime(self.df['application_deadline'])
+        time.sleep(0.5)
+
     def executar_pipeline(self):
         """
         Executa o pipeline completo de limpeza dos dados.
