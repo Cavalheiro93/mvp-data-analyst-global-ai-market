@@ -13,23 +13,23 @@ class LimpezaDados:
         print("🔹 Arquivo carregado!")
         time.sleep(0.5)
 
-    def tratar_valores_nulos(self):
+    def _tratar_valores_nulos(self):
         self.df.fillna("Não Informado", inplace=True)
         print("🔹 Valores nulos tratados")        
         time.sleep(0.5)
 
-    def remover_duplicatas(self):
+    def _remover_duplicatas(self):
         self.df.drop_duplicates(inplace=True)
         print("🔹 Duplicatas removidas")
         time.sleep(0.5)
 
-    def conversao_para_data(self):
+    def _conversao_para_data(self):
         self.df['posting_date'] = pd.to_datetime(self.df['posting_date'])
         self.df['application_deadline'] = pd.to_datetime(self.df['application_deadline'])
         print("🔹 Datas convertidas para datetime")
         time.sleep(0.5)
     
-    def remote_ratio_categorizado(self):
+    def _remote_ratio_categorizado(self):
         self.df['remote_ratio'] = self.df['remote_ratio'].map({
             0: '1-On-site',
             50: '2-Hybrid',
@@ -38,7 +38,7 @@ class LimpezaDados:
         print("🔹 Coluna 'experience_level' categorizado")
         time.sleep(0.5)       
 
-    def experience_level_categorizado(self):
+    def _experience_level_categorizado(self):
         self.df['experience_level'] = self.df['experience_level'].map({
             'EN': '1- Entry-level',
             'MI': '2-Mid-level',
@@ -48,7 +48,7 @@ class LimpezaDados:
         print("🔹 Coluna 'experience_level' categorizado")
         time.sleep(0.5)  
 
-    def employment_type_categorizado(self):
+    def _employment_type_categorizado(self):
         # Substitui os valores e já converte para tipo categórico
         self.df['employment_type'] = self.df['employment_type'].map({
             'FT': 'Full-time',
@@ -59,7 +59,7 @@ class LimpezaDados:
         print("🔹 Coluna 'employment_type' categorizado")
         time.sleep(0.5)        
 
-    def company_size_categorizado(self):
+    def _company_size_categorizado(self):
         # Substitui os valores e já converte para tipo categórico
         self.df['company_size'] = self.df['company_size'].map({
             'S': '1-Small [<50]',
