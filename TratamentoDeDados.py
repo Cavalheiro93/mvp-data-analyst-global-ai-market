@@ -1,6 +1,10 @@
 from abc import ABC, abstractmethod
 import pandas as pd
 import time
+import seaborn as sns
+import matplotlib.pyplot as plt
+import ipywidgets as widgets
+from IPython.display import display
 
 
 class TratamentoBase(ABC):
@@ -115,40 +119,28 @@ class LimpezaFinalDados(TratamentoBase):
 
 class GeradorSkillsPorCategoria:
     """
-    Gera um novo DataFrame com a contagem de habilidades (skills) por categoria especificada.
-    Exemplo de categoria: 'job_title', 'company_location', etc.
+    Gera um novo DataFrame com a contagem de habilidades por categoria especificada.
     """
 
     def __init__(self, df: pd.DataFrame, coluna_categoria: str):
-        """
-        Inicializa o gerador com um DataFrame e a coluna de categoria desejada.
-
-        Args:
-            df (pd.DataFrame): DataFrame original com a coluna 'required_skills'.
-            coluna_categoria (str): Nome da coluna que servirá como agrupamento (ex: 'job_title').
-        """
         self.df = df.copy()
         self.coluna_categoria = coluna_categoria
+        self.df_resultado = None
 
     def gerar(self) -> pd.DataFrame:
         """
-        Realiza o tratamento da coluna de skills e gera o DataFrame com contagem por categoria.
+        Trata a coluna de skills e gera o DataFrame com contagem por categoria.
 
         Returns:
             pd.DataFrame: DataFrame com colunas ['required_skill', categoria, 'qtd']
         """
-        # Garantir que seja string e separar por vírgula
         self.df['required_skills_list'] = self.df['required_skills'].astype(str).str.split(',')
 
-        # Explode a lista de skills
         df_skills = self.df[[self.coluna_categoria, 'required_skills_list']].explode('required_skills_list').copy()
-
-        # Renomear e tratar
         df_skills.rename(columns={'required_skills_list': 'required_skill'}, inplace=True)
         df_skills['required_skill'] = df_skills['required_skill'].str.strip().str.title()
 
-        # Agrupar e contar
-        df_resultado = (
+        self.df_resultado = (
             df_skills
             .groupby(['required_skill', self.coluna_categoria])
             .size()
@@ -156,4 +148,39 @@ class GeradorSkillsPorCategoria:
         )
 
         print(f"✅ DataFrame de skills por '{self.coluna_categoria}' gerado com sucesso.")
-        return df_resultado
+        return self.df_resultado
+
+    def plotar_top_habilidades_interativo(self, top_n: int = 10):
+        """
+        Exibe um gráfico interativo das top N habilidades por categoria usando widgets.
+
+        Args:
+            top_n (int): Número de habilidades para exibir no gráfico.
+        """
+        if self.df_resultado is None:
+            print("⚠️ Você precisa chamar o método 'gerar()' antes de visualizar o gráfico.")
+            return
+
+        categorias = sorted(self.df_resultado[self.coluna_categoria].unique())
+
+        seletor = widgets.Dropdown(
+            options=categorias,
+            description=f'{self.coluna_categoria}:',
+            style={'description_width': 'initial'},
+            layout=widgets.Layout(width='50%')
+        )
+
+        def plotar(categoria_selecionada):
+            df_filtrado = self.df_resultado[self.df_resultado[self.coluna_categoria] == categoria_selecionada]
+            df_top = df_filtrado.nlargest(top_n, 'qtd')
+
+            plt.figure(figsize=(10, 6))
+            sns.barplot(data=df_top, x='qtd', y='required_skill', palette='viridis')
+            plt.title(f'Top {top_n} Habilidades - {categoria_selecionada}')
+            plt.xlabel('Número de Vagas')
+            plt.ylabel('Habilidade')
+            plt.grid(axis='x', linestyle='--', alpha=0.5)
+            plt.tight_layout()
+            plt.show()
+
+        widgets.interact(plotar, categoria_selecionada=seletor)
