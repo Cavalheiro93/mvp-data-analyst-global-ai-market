@@ -90,3 +90,70 @@ class LimpezaInicialDados(TratamentoBase):
         self._company_size_categorizado()
         print("✅ Fim da limpeza inicial. DataFrame disponível.")
         return self.df
+
+
+class LimpezaFinalDados(TratamentoBase):
+    """
+    Realiza a limpeza final dos dados: Remove as colunas que não serão utilizadas.
+    """
+
+    def __init__(self, df: pd.DataFrame, colunas_remover: list[str]):
+        super().__init__(df)
+        self.colunas_remover = colunas_remover
+
+    def _drop_colunas(self):
+        self.df.drop(columns=self.colunas_remover, inplace=True)
+        print(f"🔹 Colunas removidas: {', '.join(self.colunas_remover)}")
+        time.sleep(0.5)
+
+    def executar(self) -> pd.DataFrame:
+        print("📥 Iniciando limpeza final...")
+        self._drop_colunas()
+        print("✅ Fim da limpeza final. DataFrame disponível.")
+        return self.df
+
+
+class GeradorSkillsPorCategoria:
+    """
+    Gera um novo DataFrame com a contagem de habilidades (skills) por categoria especificada.
+    Exemplo de categoria: 'job_title', 'company_location', etc.
+    """
+
+    def __init__(self, df: pd.DataFrame, coluna_categoria: str):
+        """
+        Inicializa o gerador com um DataFrame e a coluna de categoria desejada.
+
+        Args:
+            df (pd.DataFrame): DataFrame original com a coluna 'required_skills'.
+            coluna_categoria (str): Nome da coluna que servirá como agrupamento (ex: 'job_title').
+        """
+        self.df = df.copy()
+        self.coluna_categoria = coluna_categoria
+
+    def gerar(self) -> pd.DataFrame:
+        """
+        Realiza o tratamento da coluna de skills e gera o DataFrame com contagem por categoria.
+
+        Returns:
+            pd.DataFrame: DataFrame com colunas ['required_skill', categoria, 'qtd']
+        """
+        # Garantir que seja string e separar por vírgula
+        self.df['required_skills_list'] = self.df['required_skills'].astype(str).str.split(',')
+
+        # Explode a lista de skills
+        df_skills = self.df[[self.coluna_categoria, 'required_skills_list']].explode('required_skills_list').copy()
+
+        # Renomear e tratar
+        df_skills.rename(columns={'required_skills_list': 'required_skill'}, inplace=True)
+        df_skills['required_skill'] = df_skills['required_skill'].str.strip().str.title()
+
+        # Agrupar e contar
+        df_resultado = (
+            df_skills
+            .groupby(['required_skill', self.coluna_categoria])
+            .size()
+            .reset_index(name='qtd')
+        )
+
+        print(f"✅ DataFrame de skills por '{self.coluna_categoria}' gerado com sucesso.")
+        return df_resultado
