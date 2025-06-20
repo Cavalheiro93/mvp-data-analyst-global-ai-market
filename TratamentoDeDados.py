@@ -42,6 +42,13 @@ class LimpezaInicialDados(TratamentoBase):
         print("🔹 Datas convertidas para datetime")
         time.sleep(0.5)
 
+    def _startmonth_new_column(self):
+        # Criar a coluna Start_Month com o primeiro dia do mês
+        self.df['Start_Month'] = self.df['posting_date'].dt.to_period('M').dt.to_timestamp()
+
+        # Se quiser só como string 'YYYY-MM'
+        self.df['Start_Month'] = self.df['posting_date'].dt.strftime('%Y-%m')        
+
     def _remote_ratio_categorizado(self):
         self.df['remote_ratio'] = self.df['remote_ratio'].map({
             0: '1-On-site',
@@ -88,6 +95,7 @@ class LimpezaInicialDados(TratamentoBase):
         self._tratar_valores_nulos()
         self._remover_duplicatas()
         self._conversao_para_data()
+        self._startmonth_new_column()
         self._remote_ratio_categorizado()
         self._experience_level_categorizado()
         self._employment_type_categorizado()
