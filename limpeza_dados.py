@@ -35,7 +35,7 @@ class LimpezaDados:
             50: '2-Hybrid',
             100: '3-Remote'
             }).astype('category')
-        print("🔹 Coluna 'experience_level' categorizado")
+        print("🔹 Coluna 'remote_ratio' categorizado")
         time.sleep(0.5)       
 
     def _experience_level_categorizado(self):
@@ -85,6 +85,5 @@ class LimpezaDados:
         self._employment_type_categorizado()
         self._company_size_categorizado()
         print("✅ Fim do processo! DataFrame disponível. ✅")
-        print("Segunda Tentativa")
         return self.df
 
