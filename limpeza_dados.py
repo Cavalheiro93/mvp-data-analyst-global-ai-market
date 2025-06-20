@@ -85,6 +85,6 @@ class LimpezaDados:
         self._employment_type_categorizado()
         self._company_size_categorizado()
         print("✅ Fim do processo! DataFrame disponível. ✅")
-        print("Teste somente se o Colab está atualizando")
+        print("Segunda Tentativa")
         return self.df
 
