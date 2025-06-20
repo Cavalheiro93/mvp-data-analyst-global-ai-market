@@ -77,13 +77,13 @@ class LimpezaDados:
             pd.DataFrame: DataFrame tratado e pronto para análise.
         """
         self.carregar_dados()
-        self.tratar_valores_nulos()
-        self.remover_duplicatas()
-        self.conversao_para_data()
-        self.remote_ratio_categorizado()
-        self.experience_level_categorizado()
-        self.employment_type_categorizado()
-        self.company_size_categorizado()
+        self._tratar_valores_nulos()
+        self._remover_duplicatas()
+        self._conversao_para_data()
+        self._remote_ratio_categorizado()
+        self._experience_level_categorizado()
+        self._employment_type_categorizado()
+        self._company_size_categorizado()
         print("✅ Fim do processo! DataFrame disponível. ✅")
         return self.df
 
