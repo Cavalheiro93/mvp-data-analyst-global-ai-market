@@ -47,7 +47,9 @@ class LimpezaInicialDados(TratamentoBase):
         self.df['Start_Month'] = self.df['posting_date'].dt.to_period('M').dt.to_timestamp()
 
         # Se quiser só como string 'YYYY-MM'
-        self.df['Start_Month'] = self.df['posting_date'].dt.strftime('%Y-%m')        
+        self.df['Start_Month'] = self.df['posting_date'].dt.strftime('%Y-%m')     
+
+        print("🔹 Coluna 'Start_Month' criada")   
 
     def _remote_ratio_categorizado(self):
         self.df['remote_ratio'] = self.df['remote_ratio'].map({
