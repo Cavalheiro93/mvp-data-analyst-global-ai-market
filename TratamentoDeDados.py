@@ -175,11 +175,21 @@ class GeradorSkillsPorCategoria:
             df_top = df_filtrado.nlargest(top_n, 'qtd')
 
             plt.figure(figsize=(10, 6))
-            sns.barplot(data=df_top, x='qtd', y='required_skill', palette='viridis')
+            ax = sns.barplot(data=df_top, x='qtd', y='required_skill', palette='viridis')
             plt.title(f'Top {top_n} Habilidades - {categoria_selecionada}')
             plt.xlabel('Número de Vagas')
             plt.ylabel('Habilidade')
             plt.grid(axis='x', linestyle='--', alpha=0.5)
+
+            # Adiciona os rótulos ao final de cada barra
+            for i, valor in enumerate(df_top['qtd']):
+                plt.text(
+                    x=valor + 1,
+                    y=i,
+                    s=str(valor),
+                    va='center'
+                )
+
             plt.tight_layout()
             plt.show()
 
