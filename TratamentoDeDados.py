@@ -160,32 +160,24 @@ class GeradorSkillsPorCategoria:
         print(f"✅ DataFrame de skills por '{self.coluna_categoria}' gerado com sucesso.")
         return self.df_resultado
 
-    def plotar_top_habilidades_interativo(self, top_n: int = 10):
+    def plotar_top_habilidades_interativo(self, top_n: int = 10, categoria_especifica: str = None):
         """
-        Exibe um gráfico interativo das top N habilidades por categoria usando widgets.
+        Exibe um gráfico (interativo ou direto) das top N habilidades por categoria.
 
         Args:
-            top_n (int): Número de habilidades para exibir no gráfico.
+            top_n (int): Número de habilidades a exibir.
+            categoria_especifica (str, opcional): Categoria específica para plotar diretamente.
         """
         if self.df_resultado is None:
             print("⚠️ Você precisa chamar o método 'gerar()' antes de visualizar o gráfico.")
             return
-
-        categorias = sorted(self.df_resultado[self.coluna_categoria].unique())
-
-        seletor = widgets.Dropdown(
-            options=categorias,
-            description=f'{self.coluna_categoria}:',
-            style={'description_width': 'initial'},
-            layout=widgets.Layout(width='50%')
-        )
 
         def plotar(categoria_selecionada):
             df_filtrado = self.df_resultado[self.df_resultado[self.coluna_categoria] == categoria_selecionada]
             df_top = df_filtrado.nlargest(top_n, 'qtd')
 
             plt.figure(figsize=(10, 6))
-            ax = sns.barplot(data=df_top, x='qtd', y='required_skill', palette='viridis')
+            sns.barplot(data=df_top, x='qtd', y='required_skill', palette='viridis')
             plt.title(f'Top {top_n} Habilidades - {categoria_selecionada}')
             plt.xlabel('Número de Vagas')
             plt.ylabel('Habilidade')
@@ -203,4 +195,23 @@ class GeradorSkillsPorCategoria:
             plt.tight_layout()
             plt.show()
 
-        widgets.interact(plotar, categoria_selecionada=seletor)
+        # Se o usuário forneceu uma categoria específica, plota direto
+        if categoria_especifica:
+            if categoria_especifica not in self.df_resultado[self.coluna_categoria].unique():
+                print(f"❌ Categoria '{categoria_especifica}' não encontrada na coluna '{self.coluna_categoria}'.")
+                return
+            plotar(categoria_especifica)
+
+        else:
+            # Caso contrário, cria um dropdown interativo
+            categorias = sorted(self.df_resultado[self.coluna_categoria].unique())
+
+            seletor = widgets.Dropdown(
+                options=categorias,
+                description=f'{self.coluna_categoria}:',
+                style={'description_width': 'initial'},
+                layout=widgets.Layout(width='50%')
+            )
+
+            widgets.interact(plotar, categoria_selecionada=seletor)
+
