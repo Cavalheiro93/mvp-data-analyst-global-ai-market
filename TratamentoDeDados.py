@@ -217,7 +217,8 @@ class PadronizacaoDadosBrasil(TratamentoBase):
             'Sql': ['Sql'],
             'Statistics': ['Statistics', 'Estatistica', 'Estatística', 'reas correlatas'],
             'Tableau': ['Tableau'],
-            'Tensorflow': ['Tensorflow']
+            'Tensorflow': ['Tensorflow'],
+            'PowerBI': ['PowerBI', 'Power Bi', 'Power-Bi', 'Power bi'],
         }
 
         def encontrar_skills(texto):
@@ -256,14 +257,14 @@ class PadronizacaoDadosBrasil(TratamentoBase):
 
         # DataFrame já criado ou carregado em df
         self.df['salary_usd'] = np.nan
-        self.df['salary_currency'] = "N/A"
-        self.df['company_size'] = "N/A"
-        self.df['employee_residence'] = "N/A"
-        self.df['education_required'] = "N/A"
+        self.df['salary_currency'] = np.nan
+        self.df['company_size'] = np.nan
+        self.df['employee_residence'] = np.nan
+        self.df['education_required'] = np.nan
         self.df['years_experience'] = np.nan
         self.df['application_deadline'] = np.nan
         self.df['benefits_score'] = np.nan
-        self.df['posting_date'] = np.nan
+        #self.df['posting_date'] = np.nan
         print("🔹 Ajuste de valores vazios.")
 
     def _ajustar_dtypes(self):
@@ -306,18 +307,31 @@ class PadronizacaoDadosBrasil(TratamentoBase):
         """
         print("📥 Iniciando padronização dos dados do Brasil...")
         self._ajustar_experience_level()
+        time.sleep(0.25)
         self._remover_colunas_irrelevantes()
+        time.sleep(0.25)
         self._renomear_colunas()
+        time.sleep(0.25)
         self._padronizar_job_title()
+        time.sleep(0.25)
         self._padronizar_employment_type()
+        time.sleep(0.25)
         self._padronizar_company_only_brazil()
+        time.sleep(0.25)
         self._ajustar_remote_ratio()
+        time.sleep(0.25)
         self._ajustar_industry()
+        time.sleep(0.25)
         self._extrair_required_skills()
+        time.sleep(0.25)
         self._calcular_job_description_length()
+        time.sleep(0.25)
         self._atribuir_valores_vazios()
+        time.sleep(0.25)
         self._ajustar_posting_date()
+        time.sleep(0.25)
         self._ajustar_dtypes()
+        time.sleep(0.25)
         print("✅ Fim da padronização. DataFrame disponível.")
         return self.df
 
