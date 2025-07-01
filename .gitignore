@@ -3,6 +3,6 @@ job_data.xlsx
 job_teste_industry.xlsx
 job_title_check.xlsx
 linkedin_jobs.ipynb
-source\job_data.csv
-source\job_data.xlsx
-source\job_ids_cache.pkl
+source/job_data.csv
+source/job_data.xlsx
+source/job_ids_cache.pkl
