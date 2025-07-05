@@ -11,4 +11,6 @@ Projeto de MVP em Análise de Dados focado em entender as principais tendências
 ## 📁 Arquivo Principal
 Todo o projeto está documentado de forma completa e acessível no notebook **🔗 Projeto_MVP.ipynb**:
 
-https://github.com/Cavalheiro93/mvp-data-analyst-global-ai-market/blob/09eeb544c4ba31dd0afcb0923131f67bd074d4c2/Projeto_MVP.ipynb
+Github → https://github.com/Cavalheiro93/mvp-data-analyst-global-ai-market/blob/09eeb544c4ba31dd0afcb0923131f67bd074d4c2/Projeto_MVP.ipynb
+
+Google Colab → https://colab.research.google.com/github/Cavalheiro93/mvp-data-analyst-global-ai-market/blob/main/Projeto_MVP.ipynb
