@@ -6,3 +6,4 @@ linkedin_jobs.ipynb
 source/job_data.csv
 source/job_data.xlsx
 source/job_ids_cache.pkl
+limpeza_dados.py
