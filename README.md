@@ -1,4 +1,4 @@
-# 📊 MVP: Tendências do Mercado Global e Nacional de IA e Salários
+# 📊 MVP: Tendências do Mercado Global e Nacional de IA e Dados e tendências de salários globais
 Projeto de MVP em Análise de Dados focado em entender as principais tendências salariais e profissionais do mercado global e nacional de IA. Inclui limpeza de dados, exploração estatística, visualizações interativas e insights para tomada de decisão.
 
 
