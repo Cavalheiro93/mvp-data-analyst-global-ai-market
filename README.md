@@ -1,4 +1,4 @@
-# 📊 MVP: Análise do Mercado Global de IA e Vagas de Dados
+# 📊 MVP: Tendências do Mercado Global de IA e Salários
 Projeto de MVP em Análise de Dados focado em entender as principais tendências salariais e profissionais do mercado global de IA. Inclui limpeza de dados, exploração estatística, visualizações interativas e insights para tomada de decisão.
 
 
